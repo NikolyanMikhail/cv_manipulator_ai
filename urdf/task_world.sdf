@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="task_world">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><plane><normal>0 0 1</normal></plane></geometry></collision>
+        <visual name="visual"><geometry><plane><normal>0 0 1</normal></plane></geometry><material><ambient>0.8 0.8 0.8 1</ambient></material></visual>
+      </link>
+    </model>
+
+    <model name="target_red_cube">
+     <pose>0.28 0.02 0.025 0 0 0</pose>
+      <link name="link">
+        <collision name="c1">
+          <geometry><box><size>0.05 0.05 0.05</size></box></geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1.0</mu>      <mu2>1.0</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>1000000.0</kp>
+                <kd>1.0</kd>
+                <min_depth>0.002</min_depth> <max_vel>0.0</max_vel>       </ode>
+            </contact>
+          </surface>
+        </collision>
+        <visual name="v1">
+          <geometry><box><size>0.05 0.05 0.05</size></box></geometry>
+          <material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="obstacle_green_cube">
+      <pose>0.22 -0.02 0.025 0 0 0.5</pose>
+      <link name="link">
+        <collision name="c1"><geometry><box><size>0.06 0.06 0.05</size></box></geometry></collision>
+        <visual name="v1"><geometry><box><size>0.06 0.06 0.05</size></box></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="fake_red_sphere">
+      <pose>0.25 -0.1 0.025 0 0 0</pose>
+      <link name="link">
+        <collision name="c1"><geometry><sphere><radius>0.025</radius></sphere></geometry></collision>
+        <visual name="v1"><geometry><sphere><radius>0.025</radius></sphere></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="warehouse_bin">
+      <static>true</static>
+      <pose>0.05 0.24 0.0 0 0 0</pose>
+      <link name="link">
+        <collision name="bottom"><pose>0 0 0.005 0 0 0</pose><geometry><box><size>0.15 0.15 0.01</size></box></geometry></collision>
+        <visual name="bottom_vis"><pose>0 0 0.005 0 0 0</pose><geometry><box><size>0.15 0.15 0.01</size></box></geometry>
+          <material><ambient>1.0 0.8 0.0 1</ambient><diffuse>1.0 0.8 0.0 1</diffuse></material>
+        </visual>
+        
+        <collision name="w1"><pose>0.07 0 0.04 0 0 0</pose><geometry><box><size>0.01 0.15 0.08</size></box></geometry></collision>
+        <visual name="w1_vis"><pose>0.07 0 0.04 0 0 0</pose><geometry><box><size>0.01 0.15 0.08</size></box></geometry>
+          <material><ambient>1.0 0.8 0.0 1</ambient><diffuse>1.0 0.8 0.0 1</diffuse></material>
+        </visual>
+        
+        <collision name="w2"><pose>-0.07 0 0.04 0 0 0</pose><geometry><box><size>0.01 0.15 0.08</size></box></geometry></collision>
+        <visual name="w2_vis"><pose>-0.07 0 0.04 0 0 0</pose><geometry><box><size>0.01 0.15 0.08</size></box></geometry>
+          <material><ambient>1.0 0.8 0.0 1</ambient><diffuse>1.0 0.8 0.0 1</diffuse></material>
+        </visual>
+        
+        <collision name="w3"><pose>0 0.07 0.04 0 0 0</pose><geometry><box><size>0.13 0.01 0.08</size></box></geometry></collision>
+        <visual name="w3_vis"><pose>0 0.07 0.04 0 0 0</pose><geometry><box><size>0.13 0.01 0.08</size></box></geometry>
+          <material><ambient>1.0 0.8 0.0 1</ambient><diffuse>1.0 0.8 0.0 1</diffuse></material>
+        </visual>
+        
+        <collision name="w4"><pose>0 -0.07 0.04 0 0 0</pose><geometry><box><size>0.13 0.01 0.08</size></box></geometry></collision>
+        <visual name="w4_vis"><pose>0 -0.07 0.04 0 0 0</pose><geometry><box><size>0.13 0.01 0.08</size></box></geometry>
+          <material><ambient>1.0 0.8 0.0 1</ambient><diffuse>1.0 0.8 0.0 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    
+    <model name="cube_behind">
+      <pose>-0.15 0.0 0.025 0 0 0</pose> <link name="link">
+        <inertial>
+          <mass>0.05</mass> <inertia>
+            <ixx>2e-05</ixx>
+            <iyy>2e-05</iyy>
+            <izz>2e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry>
+            <box><size>0.05 0.05 0.05</size></box> </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1.0</mu>
+                <mu2>1.0</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>1000000.0</kp>
+                <kd>1.0</kd>
+                <min_depth>0.002</min_depth>
+                <max_vel>0.0</max_vel>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>0.05 0.05 0.05</size></box>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient> <diffuse>1 0 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
